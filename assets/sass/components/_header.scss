@@ -1,0 +1,37 @@
+.main-header{
+    position: fixed;
+    height: $header-height;
+    width: $header-widht;
+    background-color: var(--first-color);
+    left: 10%;/* Negative half of width. */
+    border-radius: 0 0 2rem 2rem;
+}
+
+.main-header_block{
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.main-logo{
+    height: 3rem;
+}
+
+.main-icon{
+    height: 4.5rem;
+}
+
+.main-utilities{
+    
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    width: 10rem;
+    display: flex;
+}
+
+
+.main-utilities_item{
+    padding: 1rem;
+}
