@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DingDong</title>
 
     <link href="assets/css/styles.css" rel="stylesheet">
@@ -13,12 +14,36 @@
         <div class="l-container main-header_block">
             <img src="assets/img/logo.png" alt="Logo DingDong" class="main-logo">
             <div class="main-utilities">
-                <img src="assets/img/carrito.png" alt="Logo DingDong" class="main-utilities_item main-icon">
-                <img src="assets/img/usuario.png" alt="Logo DingDong" class="main-utilities_item main-icon">
+                <img src="assets/img/carrito.png" alt="Carrito" class="main-utilities_item main-icon">
+                <img src="assets/img/usuario.png" alt="Usuario" class="main-utilities_item main-icon">
             </div>
         </div>
     </header>
 
-    <div class="circle"></div>
+    <div class="circle">
+        <div class="wrapper">
+            <input type="radio" name="image-slide" checked="checked">
+            <picture>
+                <img src="assets/img/Banner.png" alt="Random Picture 1">
+            </picture>
+            
+            <input type="radio" name="image-slide">
+            <picture>
+                <img src="assets/img/Hola.png" alt="">
+            </picture>
+        
+            <input type="radio" name="image-slide">
+            <picture>
+                <a href="https://picsum.photos/500/300?random=3" target="_blank">
+                    <img src="https://picsum.photos/500/300?random=3" alt="">
+                </a>
+            </picture>
+            
+            <input type="radio" name="image-slide">
+            <picture>
+                <img src="https://picsum.photos/500/300?random=4" alt="">
+            </picture>
+        </div>
+    </div>
 </body>
 </html>
