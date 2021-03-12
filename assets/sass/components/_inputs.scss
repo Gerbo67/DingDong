@@ -1,0 +1,62 @@
+.sesion{
+  margin: 1rem auto;
+  text-align: center;
+  width: 80%;
+}
+
+.sesion input::placeholder {
+  text-align: center;
+}
+
+.sesion input{
+  width: 100%;
+  height:2rem;
+  border-radius: 1rem;
+  padding: 0;
+  background-color: #dddddd;
+  border: none;
+  text-align: center;
+}
+
+.inputUser{
+  margin-bottom: 2rem;
+}
+
+.labelUser{
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.ajs-modal .ajs-header{
+  text-align: center;
+  background-color: var(--first-color);
+  color:white;
+}
+
+.ajs-modal .ajs-footer{
+  background-color: var(--first-color);
+}
+
+.ajs-modal .ajs-dialog{
+ border-style: none;
+}
+
+.alertify .ajs-footer .ajs-buttons.ajs-primary{
+  text-align: right;
+}
+
+.alertify .ajs-footer .ajs-buttons.ajs-primary .ajs-button.ajs-ok{
+  background-color: red;
+  color: white;
+  border-style: none;
+  border-radius: 0.5em;
+  box-shadow: black 0 0 2px 0.1px;
+}
+
+.alertify .ajs-footer .ajs-buttons.ajs-primary .ajs-button.ajs-ok:hover{
+  background-color: rgb(194, 4, 4);
+}
+
+.alertify .ajs-footer .ajs-buttons.ajs-primary .ajs-button.ajs-ok:focus{
+  border-style: none;
+}
