@@ -5,6 +5,7 @@
     background-color: var(--first-color);
     left: 10%;/* Negative half of width. */
     border-radius: 0 0 2rem 2rem;
+    z-index: 1000;
 }
 
 .main-header_block{
