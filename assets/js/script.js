@@ -1,3 +1,12 @@
+$(function() {
+    $('.your-class').slick({
+        infinite: true,
+        speed: 300,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+    });
+});
+
 
 $('.user').click(function (e){
 

@@ -11,3 +11,26 @@
     height: 26rem;
     background-color: brown;
 }
+
+.cardShop{
+    background-color: royalblue;
+    width: 19rem;
+    //margin: 0.2rem;
+    min-width: 19rem;
+    height: 26rem;
+    //border-radius: 0.2rem;
+    //box-shadow: 0 0 5px 3px rgb(73, 73, 73);
+    text-align: center;
+}
+
+.cardss{
+    width: 18rem;
+    height: 25rem;
+    margin: 0.5rem;
+    background-color: white;
+    border-radius: 0.2rem;
+    box-shadow: 0 0 5px 3px rgb(73, 73, 73);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

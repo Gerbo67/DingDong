@@ -185,6 +185,26 @@ input + * + *:not(input[type=radio]) {
   background-color: brown;
 }
 
+.cardShop {
+  background-color: royalblue;
+  width: 19rem;
+  min-width: 19rem;
+  height: 26rem;
+  text-align: center;
+}
+
+.cardss {
+  width: 18rem;
+  height: 25rem;
+  margin: 0.5rem;
+  background-color: white;
+  border-radius: 0.2rem;
+  box-shadow: 0 0 5px 3px #494949;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .sesion {
   margin: 1rem auto;
   text-align: center;
