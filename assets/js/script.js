@@ -32,3 +32,8 @@ $('.user').click(function (e){
         '<div class="inputUser"><input type="password" placeholder="************"></div>' +
         '</div>').show();
 });
+
+$('.github').click(function (e){
+    window.location.href="https://github.com/Gerbo67/DingDong";
+    console.log(1);
+});

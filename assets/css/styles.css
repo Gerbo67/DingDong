@@ -12,6 +12,8 @@ body {
   margin: 0;
   font-family: Lato, sans-serif;
   font-size: var(--body-font-size);
+  padding: 1;
+  width: 100%;
 }
 
 a {
@@ -89,6 +91,37 @@ h3 {
 
 .main-utilities_item {
   padding: 1rem;
+}
+
+.main-footer {
+  position: absolute;
+  height: 5rem;
+  width: 80%;
+  background-color: var(--first-color);
+  left: 10%;
+  /* Negative half of width. */
+  border-radius: 2rem 2rem 0 0;
+  z-index: 1000;
+  bottom: 0;
+  padding-bottom: 16px;
+  color: white;
+}
+
+.main-footer .main-utilities_item {
+  padding: 1.5rem;
+}
+
+.main-footer .main-header_block {
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  margin-right: 4.5rem;
+}
+
+.main-footer .main-icon {
+  height: 5rem;
+  width: 5rem;
 }
 
 .circle {
@@ -177,6 +210,7 @@ input + * + *:not(input[type=radio]) {
   width: 100%;
   background-color: blueviolet;
   padding: 1px;
+  padding-bottom: 5rem;
 }
 
 .sector {
