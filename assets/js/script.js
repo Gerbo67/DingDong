@@ -36,7 +36,7 @@ $('.github').click(function (e){
 
 function LlenadoSlider(){
     var res = "";
-
+    block();
     $.ajax({
         url: "https://dingdongapi.azurewebsites.net/api/marcas",
         type: "GET",
@@ -97,6 +97,8 @@ function LlenadoSlider(){
 
             slick();
 
+            unBlock();
+
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert("Error when the system try to generate the general graphic");
@@ -137,4 +139,13 @@ function slick(){
             // instead of a settings object
         ]
     });
+}
+
+function block(){
+    document.querySelector('#teal').style.opacity = 1;
+}
+
+function unBlock(){
+
+    document.querySelector('#teal').style.opacity = 0;
 }
