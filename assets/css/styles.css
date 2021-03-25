@@ -136,7 +136,7 @@ h3 {
 .wrapper {
   z-index: 900;
   box-shadow: 0 0 4px 4px grey;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   position: relative;
   width: 60vw;
   height: 40vh;
@@ -208,35 +208,58 @@ input + * + *:not(input[type=radio]) {
   top: 45rem;
   position: absolute;
   width: 100%;
-  background-color: blueviolet;
-  padding: 1px;
-  padding-bottom: 5rem;
+  padding: 1px 1px 5rem;
 }
 
 .sector {
   margin: 2vw 16vw;
   height: 26rem;
-  background-color: brown;
 }
 
 .cardShop {
-  background-color: royalblue;
-  width: 19rem;
-  min-width: 19rem;
+  background-color: #ffb484;
+  width: 100%;
+  min-width: 10rem;
   height: 26rem;
   text-align: center;
 }
 
 .cardss {
   width: 18rem;
+  min-width: 18rem;
   height: 25rem;
-  margin: 0.5rem;
+  margin: 0.5rem auto;
   background-color: white;
   border-radius: 0.2rem;
   box-shadow: 0 0 5px 3px #494949;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.slick-prev:before, .slick-next:before {
+  opacity: 1;
+}
+
+.slick-arrow {
+  height: 26rem;
+  background-color: var(--first-color);
+}
+
+.slick-arrow:hover {
+  background-color: #de5903;
+}
+
+.slick-arrow:focus {
+  background-color: #de5903;
+}
+
+.slick-prev {
+  border-radius: 0.5rem 0 0.5rem;
+}
+
+.slick-next {
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
 .sesion {
@@ -301,3 +324,5 @@ input + * + *:not(input[type=radio]) {
 .alertify .ajs-footer .ajs-buttons.ajs-primary .ajs-button.ajs-ok:focus {
   border-style: none;
 }
+
+/*# sourceMappingURL=styles.css.map */
