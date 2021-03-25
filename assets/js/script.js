@@ -2,7 +2,7 @@ $(function() {
     $('.your-class').slick({
         infinite: true,
         speed: 300,
-        slidesToShow: 4,
+        slidesToShow: 3,
         slidesToScroll: 1,
         responsive: [
             {
