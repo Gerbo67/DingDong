@@ -1,5 +1,6 @@
 :root {
   --first-color: #F96302;
+  --black-color: #2f2f2f;
 }
 
 *,
@@ -232,9 +233,96 @@ input + * + *:not(input[type=radio]) {
   background-color: white;
   border-radius: 0.2rem;
   box-shadow: 0 0 5px 3px #494949;
+}
+
+.cardLogo {
+  width: 100%;
+  height: 100%;
+  padding: 0.1px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.MarcaLogo {
+  padding: 0.1px;
+  display: block;
+  width: 80%;
+}
+
+.headerCard {
+  width: 100%;
+  height: 12rem;
+  padding: 0.1px;
+}
+
+.ItemImage {
+  object-fit: fill;
+  width: 90%;
+  height: 90%;
+  margin: 0.5rem auto;
+}
+
+.bodyCard {
+  width: 100%;
+  height: 9.5rem;
+  padding: 0.1px;
+}
+
+.bodyCard > h1 {
+  font-size: 1.5rem;
+  color: var(--black-color);
+  margin: 5px;
+}
+
+.bodyCard > p {
+  color: var(--black-color);
+  margin: 0 0.5rem 0 0.5rem;
+}
+
+.footerCard {
+  width: 100%;
+  height: 3.5rem;
+}
+
+.footerItems {
+  margin: 0 0.5rem 0 0.5rem;
+  display: flex;
+  padding: 0.1px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.footerButton {
+  width: 8rem;
+  height: 2rem;
+  border-radius: 25rem;
+  background: #1A9CE5;
+  border: none;
+  color: white;
+}
+
+.footerButton:hover {
+  background: #157cb7;
+}
+
+.footerButton:focus {
+  border: none;
+  outline: none;
+}
+
+.footerInfo {
+  width: 2rem;
+  height: 2rem;
+  background: aquamarine;
+  margin: 0.75rem 0;
+}
+
+.footerPlay {
+  width: 2rem;
+  height: 2rem;
+  background: black;
+  margin: 0.75rem 0;
 }
 
 .slick-prev:before, .slick-next:before {
