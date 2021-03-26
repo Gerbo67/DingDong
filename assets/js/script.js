@@ -49,12 +49,11 @@ function LlenadoSlider(){
                                  '<div class="cardShop">' +
                                      '<div class="cardss">' +
                                         '<div class="cardLogo">' +
-                                            '<img class="MarcaLogo" src="assets/img/Logos/SterenLogo.png" alt="Steren Logo">' +
+                                            '<img class="MarcaLogo" src="assets/img/Logos/'+MD[i].ImagenNombre+'" alt="Steren Logo">' +
                                         '</div>' +
                                     '</div>' +
                                 '</div>';
                 //----------------------------------Items---------------------------------------//
-                console.log(MD[i].Id);
                 $.ajax({
                     url: "https://dingdongapi.azurewebsites.net/api/items/"+MD[i].Id,
                     async:false,
@@ -143,9 +142,15 @@ function slick(){
 
 function block(){
     document.querySelector('#teal').style.opacity = 1;
+    document.querySelector('body').style.overflow = 'hidden';
 }
 
 function unBlock(){
+    setTimeout(function() {
+        document.querySelector('#teal').style.opacity = 0;
+        document.querySelector('body').style.overflow = 'visible';
+    }, 3000);
 
-    document.querySelector('#teal').style.opacity = 0;
 }
+
+
