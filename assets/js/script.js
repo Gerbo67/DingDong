@@ -318,7 +318,7 @@ function validarRegistro(email, user, pass) {
     if (emailRegex.test(email)) {
         if (user.length >= 3) {
             if (!userRegex.test(user)) {
-                if (pass >= 5) {
+                if (pass.length >= 5) {
                     val = 1;
                 } else {
                     alertify.error('Contraseña pequeña (min 5 caracteres)');
