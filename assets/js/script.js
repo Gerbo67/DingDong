@@ -1,10 +1,33 @@
 $(function () {
     LlenadoSlider();
 
+    alertify.set('notifier', 'position', 'bottom-left');
+
     $(document).on('click', '.buttonSesion', function () {
         inicioSesion();
     });
+
+    $(document).on('click', '.buttonRegister', function () {
+        ocultarmostar();
+    });
+
+    $(document).on('click', '.buttonRegister2', function () {
+        registrar();
+    });
+
 });
+
+let select = 0;
+
+function ocultarmostar() {
+    if (select == 0) {
+        document.getElementById("zonaregistro").style.display = 'block';
+        select = 1;
+    } else {
+        document.getElementById("zonaregistro").style.display = 'none';
+        select = 0;
+    }
+}
 
 
 $('.user').click(function (e) {
@@ -27,16 +50,28 @@ $('.user').click(function (e) {
     alertify.alert().set('label', 'Cerrar');
 
     alertify.alert().set({transition: 'zoom'});
+
     //Contenido
     alertify.alert().setContent('<div class="sesion">' +
         '<div class="labelUser">Correo electronico:</div>' +
         '<div class="inputUser"><input id="email" type="email" placeholder="example@example.com"></div>' +
         '<div class="labelUser">Contraseña:</div>' +
         '<div class="inputUser"><input id="password" type="password" placeholder="************"></div>' +
-
         '<div class="buttons">' +
         '<div class="buttonSesion">Iniciar Sesión</div>' +
         '<div class="buttonRegister">Registrarse</div>' +
+        '</div>' +
+        '<div id="zonaregistro" class="zonaregistro">' +
+        '<div class="titlereg">Ingresa tus datos</div>' +
+        '<div class="bodyregister">' +
+        '<div class="labelUser">Correo electronico:</div>' +
+        '<div class="inputUser"><input id="emailr" type="text" placeholder="example@example.com"></div>' +
+        '<div class="labelUser">Nombre de usuario:</div>' +
+        '<div class="inputUser"><input id="nameusur" maxlength="9" type="text" placeholder="example10"></div>' +
+        '<div class="labelUser">Contraseña:</div>' +
+        '<div class="inputUser"><input id="passwordr" type="password" placeholder="************"></div>' +
+        '<div class="buttonRegister2">Enviar datos</div>' +
+        '</div>' +
         '</div>' +
         '</div>').show();
 });
@@ -97,7 +132,7 @@ function LlenadoSlider() {
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Error when the system try to generate the general graphic");
+                        alert("ERROR: No se pudo consultar items");
                     }
                 });
                 res += '</div></div>' +
@@ -122,7 +157,7 @@ function LlenadoSlider() {
 
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert("Error when the system try to generate the general graphic");
+            alert("ERROR: No se pudo consultar marcas");
         }
     });
 }
@@ -171,18 +206,18 @@ function unBlock() {
     setTimeout(function () {
         document.querySelector('#teal').style.opacity = 0;
         document.querySelector('body').style.overflow = 'visible';
-    }, 3000);
+    }, 1000);
 
 }
 
 
 function inicioSesion() {
-    const email = document.getElementById("email").value;
-    console.log(email);
-    const pass = document.getElementById("password").value;
-    console.log(pass);
-    comprobar(email, pass);
-
+    let email = document.getElementById("email").value;
+    let pass = document.getElementById("password").value;
+    let val = validarSesion(email, pass);
+    if (val == 1) {
+        comprobar(email, pass);
+    }
 }
 
 function comprobar(email, pass) {
@@ -198,17 +233,111 @@ function comprobar(email, pass) {
             //console.log(data[0].result);
 
             if (data[0].result == 1) {
-                const pass = document.getElementById("user_name").innerText = data[0].nombre;
+                document.getElementById("user_name").innerText = data[0].nombre;
                 document.querySelector("button.ajs-ok").click();
                 //alertify.alert('init').close();
             }
             unBlock();
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert("Error when the system try to generate the general test");
+            alert("ERROR: No se pudo iniciar sesion");
             unBlock();
         }
     });
+}
+
+function validarSesion(email, pass) {
+    let val = 0;
+
+    let emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+
+    if (emailRegex.test(email)) {
+        if (pass >= 5) {
+            val = 1;
+        } else {
+            alertify.error('Contraseña pequeña (min 5 caracteres)');
+            val = 0;
+        }
+    } else {
+        alertify.error('No es un correo valido (faltan o son menos de 10 caracteres)');
+        val = 0;
+    }
+
+    return val;
+}
+
+function registrar() {
+
+    let email = document.getElementById("emailr").value;
+    let user = document.getElementById("nameusur").value;
+    let pass = document.getElementById("passwordr").value;
+
+    const val = validarRegistro(email, user, pass);
+    if (val == 1) {
+        InsertarRegistro(email, user, pass);
+    }
+
+}
+
+async function InsertarRegistro(email, user, pass) {
+    block();
+
+    $.ajax({
+        url: "https://dingdongapi.azurewebsites.net/api/user/" + email + "/" + user + "/" + pass,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            //console.log(data[0].nombre);
+            //console.log(data[0].result);
+
+            if (data[0].result == 2) {
+                alertify.success('¡Registro exitoso!');
+                ocultarmostar();
+            } else if (data[0].result == 1) {
+                alertify.error('¡Usuario ya existe!');
+            } else {
+                alertify.error('¡Correo ya vinculado con otro usuario!');
+            }
+            unBlock();
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("ERROR: No se pudo registar");
+            unBlock();
+        }
+    });
+}
+
+function validarRegistro(email, user, pass) {
+    let val = 0;
+
+    let emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+    let userRegex = /\s/;
+
+    if (emailRegex.test(email)) {
+        if (user.length >= 3) {
+            if (!userRegex.test(user)) {
+                if (pass >= 5) {
+                    val = 1;
+                } else {
+                    alertify.error('Contraseña pequeña (min 5 caracteres)');
+                    val = 0;
+                }
+            } else {
+                alertify.error('Nombre de usuario no debe tener espacios');
+                val = 0;
+            }
+        } else {
+            alertify.error('Nombre de usuario pequeño (min 3 caracteres)');
+            val = 0;
+        }
+    } else {
+        alertify.error('No es un correo valido (faltan o son menos de 10 caracteres)');
+        val = 0;
+    }
+
+    return val;
 }
 
 

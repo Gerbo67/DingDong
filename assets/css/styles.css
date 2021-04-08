@@ -424,7 +424,7 @@ input + * + *:not(input[type=radio]) {
   justify-content: space-between;
 }
 
-.buttonSesion, .buttonRegister {
+.buttonSesion, .buttonRegister, .buttonRegister2 {
   padding: 1em;
   font-weight: bold;
   border-radius: 1.5em;
@@ -451,6 +451,44 @@ input + * + *:not(input[type=radio]) {
   border: none;
   color: #c44c01;
   border: 1px solid #c44c01;
+}
+
+.buttonRegister2 {
+  background: white;
+  display: inline;
+  color: #31e300;
+  border: 1px solid #31e300;
+}
+
+.buttonRegister2:hover {
+  background: white;
+  color: #26b000;
+  border: 1px solid #26B000;
+}
+
+.titlereg {
+  margin: 0 auto;
+  padding: 1rem 0;
+  width: 100%;
+  background-color: white;
+  border-radius: 1rem 1rem 0 0;
+  color: var(--black-color);
+  font-weight: bold;
+}
+
+.bodyregister {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  padding: 1rem 0 1.5rem 0;
+}
+
+.zonaregistro {
+  display: none;
+  margin-top: 2rem;
+  border-radius: 1rem;
+  background-color: #f3f3f3;
+  box-shadow: 0 0 5px 0.5px #494949;
 }
 
 .teal {
