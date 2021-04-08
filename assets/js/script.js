@@ -252,7 +252,7 @@ function validarSesion(email, pass) {
     let emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
 
     if (emailRegex.test(email)) {
-        if (pass >= 5) {
+        if (pass.length >= 5) {
             val = 1;
         } else {
             alertify.error('Contraseña pequeña (min 5 caracteres)');
