@@ -28,11 +28,16 @@
     justify-content: space-between;
     align-items: center;
     align-content: center;
-    width: 10rem;
+    width: 13rem;
     display: flex;
 }
 
 
 .main-utilities_item{
     padding: 1rem;
+}
+
+.user_name{
+    color: white;
+    font-weight: bold;
 }

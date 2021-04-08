@@ -60,3 +60,38 @@
 .alertify .ajs-footer .ajs-buttons.ajs-primary .ajs-button.ajs-ok:focus{
   border-style: none;
 }
+
+.buttons{
+  margin: 0 3rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonSesion, .buttonRegister{
+  padding: 1em;
+  font-weight: bold;
+  border-radius: 1.5em;
+}
+
+.buttonSesion{
+  background: var(--first-color);
+  color:white;
+}
+
+.buttonRegister{
+  background: white;
+  color:var(--first-color);
+  border: 1px solid var(--first-color);
+}
+
+.buttonSesion:hover{
+  background: #c44c01;
+  color: white;
+}
+
+.buttonRegister:hover{
+  background: white;
+  border: none;
+  color: #c44c01;
+  border: 1px solid #c44c01;
+}
