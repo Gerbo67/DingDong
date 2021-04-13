@@ -15,9 +15,16 @@ $(function () {
         registrar();
     });
 
+    $(document).on('click', '.closedButton', function () {
+        cerrarSesion();
+    });
+
 });
 
+let urlHost = 'https://dingdongapi.azurewebsites.net/api';
+//let urlHost = 'http://127.0.0.1:8090/api';
 let select = 0;
+let active = 0;
 
 function ocultarmostar() {
     if (select == 0) {
@@ -31,49 +38,50 @@ function ocultarmostar() {
 
 
 $('.user').click(function (e) {
+    if (active == 0) {
+        //Evitar Cierre
+        alertify.alert().set('closable', false);
 
-    //Evitar Cierre
-    alertify.alert().set('closable', false);
+        //Evitar mover alert
+        alertify.alert().set('movable', false);
 
-    //Evitar mover alert
-    alertify.alert().set('movable', false);
+        //Identificamos como modal
+        alertify.alert().isModal();
 
-    //Identificamos como modal
-    alertify.alert().isModal();
+        //Se acciona como Modal
+        alertify.alert().set('modal', true);
 
-    //Se acciona como Modal
-    alertify.alert().set('modal', true);
+        //Titulo
+        alertify.alert().setHeader('<b>Inicio de Sesión</b>');
 
-    //Titulo
-    alertify.alert().setHeader('<b>Inicio de Sesión</b>');
+        alertify.alert().set('label', 'Cerrar');
 
-    alertify.alert().set('label', 'Cerrar');
+        alertify.alert().set({transition: 'zoom'});
 
-    alertify.alert().set({transition: 'zoom'});
-
-    //Contenido
-    alertify.alert().setContent('<div class="sesion">' +
-        '<div class="labelUser">Correo electronico:</div>' +
-        '<div class="inputUser"><input id="email" type="email" placeholder="example@example.com"></div>' +
-        '<div class="labelUser">Contraseña:</div>' +
-        '<div class="inputUser"><input id="password" type="password" placeholder="************"></div>' +
-        '<div class="buttons">' +
-        '<div class="buttonSesion">Iniciar Sesión</div>' +
-        '<div class="buttonRegister">Registrarse</div>' +
-        '</div>' +
-        '<div id="zonaregistro" class="zonaregistro">' +
-        '<div class="titlereg">Ingresa tus datos</div>' +
-        '<div class="bodyregister">' +
-        '<div class="labelUser">Correo electronico:</div>' +
-        '<div class="inputUser"><input id="emailr" type="text" placeholder="example@example.com"></div>' +
-        '<div class="labelUser">Nombre de usuario:</div>' +
-        '<div class="inputUser"><input id="nameusur" maxlength="9" type="text" placeholder="example10"></div>' +
-        '<div class="labelUser">Contraseña:</div>' +
-        '<div class="inputUser"><input id="passwordr" type="password" placeholder="************"></div>' +
-        '<div class="buttonRegister2">Enviar datos</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>').show();
+        //Contenido
+        alertify.alert().setContent('<div class="sesion">' +
+            '<div class="labelUser">Correo electronico:</div>' +
+            '<div class="inputUser"><input id="email" type="email" placeholder="example@example.com"></div>' +
+            '<div class="labelUser">Contraseña:</div>' +
+            '<div class="inputUser"><input id="password" type="password" placeholder="************"></div>' +
+            '<div class="buttons">' +
+            '<div class="buttonSesion">Iniciar Sesión</div>' +
+            '<div class="buttonRegister">Registrarse</div>' +
+            '</div>' +
+            '<div id="zonaregistro" class="zonaregistro">' +
+            '<div class="titlereg">Ingresa tus datos</div>' +
+            '<div class="bodyregister">' +
+            '<div class="labelUser">Correo electronico:</div>' +
+            '<div class="inputUser"><input id="emailr" type="text" placeholder="example@example.com"></div>' +
+            '<div class="labelUser">Nombre de usuario:</div>' +
+            '<div class="inputUser"><input id="nameusur" maxlength="9" type="text" placeholder="example10"></div>' +
+            '<div class="labelUser">Contraseña:</div>' +
+            '<div class="inputUser"><input id="passwordr" type="password" placeholder="************"></div>' +
+            '<div class="buttonRegister2">Enviar datos</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>').show();
+    }
 });
 
 $('.github').click(function (e) {
@@ -86,7 +94,7 @@ function LlenadoSlider() {
     var res = "";
     block();
     $.ajax({
-        url: "https://dingdongapi.azurewebsites.net/api/marcas",
+        url: urlHost + "/marcas",
         type: "GET",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
@@ -103,7 +111,7 @@ function LlenadoSlider() {
                     '</div>';
                 //----------------------------------Items---------------------------------------//
                 $.ajax({
-                    url: "https://dingdongapi.azurewebsites.net/api/items/" + MD[i].Id,
+                    url: urlHost + "/items/" + MD[i].Id,
                     async: false,
                     type: "GET",
                     dataType: "json",
@@ -223,7 +231,7 @@ function inicioSesion() {
 function comprobar(email, pass) {
     block();
     $.ajax({
-        url: "https://dingdongapi.azurewebsites.net/api/user/" + email + "/" + pass,
+        url: urlHost + "/user/" + email + "/" + pass,
         async: false,
         type: "GET",
         dataType: "json",
@@ -233,9 +241,19 @@ function comprobar(email, pass) {
             //console.log(data[0].result);
 
             if (data[0].result == 1) {
+                eliminarCampos();
                 document.getElementById("user_name").innerText = data[0].nombre;
+                abrirSesion(email,pass);
                 document.querySelector("button.ajs-ok").click();
+                alertify.success('Bienvenido ' + data[0].nombre);
+                eliminarCampos();
                 //alertify.alert('init').close();
+            } else if (data[0].result == 2) {
+                alertify.warning('Tienes que verificar tu correo.');
+                eliminarCampos();
+            } else {
+                alertify.error('No se pudo iniciar sesión');
+                eliminarCampos();
             }
             unBlock();
         },
@@ -283,7 +301,7 @@ async function InsertarRegistro(email, user, pass) {
     block();
 
     $.ajax({
-        url: "https://dingdongapi.azurewebsites.net/api/user/" + email + "/" + user + "/" + pass,
+        url: urlHost + "/user/" + email + "/" + user + "/" + pass,
         async: false,
         type: "GET",
         dataType: "json",
@@ -294,6 +312,9 @@ async function InsertarRegistro(email, user, pass) {
 
             if (data[0].result == 2) {
                 alertify.success('¡Registro exitoso!');
+                eliminarCampos();
+                alertify.notify('Verifica tu correo: ' + email, 'custom', 2, function () {
+                });
                 ocultarmostar();
             } else if (data[0].result == 1) {
                 alertify.error('¡Usuario ya existe!');
@@ -338,6 +359,31 @@ function validarRegistro(email, user, pass) {
     }
 
     return val;
+}
+
+function eliminarCampos() {
+    document.getElementById("emailr").value = '';
+    document.getElementById("nameusur").value = '';
+    document.getElementById("passwordr").value = '';
+    document.getElementById("email").value = '';
+    document.getElementById("password").value = '';
+}
+
+function abrirSesion(email,pass){
+    document.getElementById("closedS").style.opacity = '1';
+    document.getElementById("correoRegis").textContent = email;
+    document.getElementById("contraRegis").textContent = pass;
+}
+
+function cerrarSesion() {
+    block();
+    document.getElementById("closedS").style.opacity = '0';
+    document.getElementById("user_name").innerText = '';
+    document.getElementById("correoRegis").innerText = '';
+    document.getElementById("contraRegis").innerText = '';
+    active = 0;
+    alertify.error('Hasta luego.');
+    unBlock();
 }
 
 

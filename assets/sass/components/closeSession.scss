@@ -1,0 +1,31 @@
+.closed {
+  transition: opacity 500ms;
+  opacity: 0;
+  z-index: -1;
+  position: absolute;
+  right: 0rem;
+  top: 40px;
+  background: var(--first-color);
+  padding: 3em 1em 1em 1em;
+}
+
+.closedButton {
+  text-align: center;
+  display: flex;
+  background: red;
+  width: 8em;
+  justify-content: center;
+  align-items: center;
+  height: 2em;
+  color: white;
+  border-radius: 0.5em;
+  font-weight: bold;
+}
+
+.closedButton:hover{
+  background: #b30e0e;
+}
+
+.datosRegis{
+  display: none;
+}
