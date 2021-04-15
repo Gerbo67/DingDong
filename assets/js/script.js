@@ -276,6 +276,7 @@ function comprobar(email, pass) {
                 document.querySelector("button.ajs-ok").click();
                 alertify.success('Bienvenido ' + data[0].nombre);
                 eliminarCampos();
+                active = 1;
                 //alertify.alert('init').close();
             } else if (data[0].result == 2) {
                 alertify.warning('Tienes que verificar tu correo.');
