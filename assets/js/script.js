@@ -17,6 +17,15 @@ $(function () {
 
     $(document).on('click', '.closedButton', function () {
         cerrarSesion();
+
+    });
+
+    $(document).on('click', '.forgotButton', function () {
+        ocultarmostrarforgot();
+    });
+
+    $(document).on('click', '.buttonOlvido', function () {
+        ValidacionOlvido();
     });
 
 });
@@ -25,6 +34,17 @@ let urlHost = 'https://dingdongapi.azurewebsites.net/api';
 //let urlHost = 'http://127.0.0.1:8090/api';
 let select = 0;
 let active = 0;
+let active2 = 0;
+
+function ocultarmostrarforgot(){
+    if (active2 == 0) {
+        document.getElementById("zonaOlvido").style.display = 'block';
+        active2 = 1;
+    } else {
+        document.getElementById("zonaOlvido").style.display = 'none';
+        active2 = 0;
+    }
+}
 
 function ocultarmostar() {
     if (select == 0) {
@@ -64,6 +84,15 @@ $('.user').click(function (e) {
             '<div class="inputUser"><input id="email" type="email" placeholder="example@example.com"></div>' +
             '<div class="labelUser">Contraseña:</div>' +
             '<div class="inputUser"><input id="password" type="password" placeholder="************"></div>' +
+            '<div class="forgotButton">¿Se te ha olvidado tu contraseña?</div>' +
+            '<div id="zonaOlvido" class="zonaOlvido">' +
+            '<div class="titlereg">Zona del olvido</div>' +
+            '<div class="bodyOlvido">' +
+            '<div class="labelUser">Correo electronico o Usuario:</div>' +
+            '<div class="inputUser"><input id="inputP" type="text" placeholder="example@example.com/example10"></div>' +
+            '<div class="buttonOlvido">Enviar datos</div>' +
+            '</div>' +
+            '</div>' +
             '<div class="buttons">' +
             '<div class="buttonSesion">Iniciar Sesión</div>' +
             '<div class="buttonRegister">Registrarse</div>' +
@@ -359,6 +388,60 @@ function validarRegistro(email, user, pass) {
     }
 
     return val;
+}
+
+function ValidacionOlvido(){
+
+    let date = document.getElementById("inputP").value;
+    if(date.length > 3){
+        validarUsuarioP(date);
+    }else{
+        alertify.error('Caracteres insuficientes!');
+    }
+}
+
+function validarUsuarioP(user){
+    block();
+    $.ajax({
+        url: urlHost + "/forgot/" +user,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            console.log(data[0].result);
+            if(data[0].result == 0){
+                alertify.error('Usuario no existe!');
+            }else if(data[0].result == 1){
+                alertify.notify('No se puede restaurar contraseña ya que hace 1 dia se pidio el cambio, en el caso de que se le haya enviado las indicaciones  y no las encuentra revise spam', 'custom', 10, function () {});
+
+            }else{
+                alertify.notify('Verifica tu correo: ' + data[0].result, 'custom', 2, function () {});
+
+                $.ajax({
+                    url: urlHost + "/forgot/" + data[0].result,
+                    async: false,
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("ERROR: No se pudo madar correo de contraseña");
+                        unBlock();
+                    }
+                });
+            }
+
+            unBlock();
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("ERROR: No se pudo validar usuario para contraseña");
+            unBlock();
+        }
+    });
 }
 
 function eliminarCampos() {

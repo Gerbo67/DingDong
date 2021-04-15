@@ -67,7 +67,7 @@
   justify-content: space-between;
 }
 
-.buttonSesion, .buttonRegister, .buttonRegister2{
+.buttonSesion, .buttonRegister, .buttonRegister2, .buttonOlvido{
   padding: 1em;
   font-weight: bold;
   border-radius: 1.5em;
@@ -95,7 +95,6 @@
   color: #c44c01;
   border: 1px solid #c44c01;
 }
-
 
 .buttonRegister2{
   background: white;
@@ -132,5 +131,45 @@
   margin-top: 2rem;
   border-radius: 1rem;
   background-color: #f3f3f3;
-  box-shadow: 0 0 5px 0.5px rgb(73, 73, 73);
+  box-shadow: 0 0 5px 0.1px rgb(152, 152, 152);
+}
+
+.forgotButton{
+  margin: 0 4em;
+  margin-bottom: 1em;
+  padding: 1em;
+  color: #1A9CE5;
+  border-radius: 0.5em;
+}
+
+.zonaOlvido{
+  display: none;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  background-color: #f3f3f3;
+  box-shadow: 0 0 5px 0.1px rgb(152, 152, 152);
+}
+.bodyOlvido{
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  padding: 1rem 0 1.5em 0;
+}
+
+.buttonOlvido{
+  background: white;
+  display: inline;
+  color: #31e300;
+  border: 1px solid #31e300;
+}
+
+.buttonOlvido:hover{
+  background: white;
+  color: #26b000;
+  border: 1px solid #26B000;
+}
+
+.forgotButton:hover{
+  color: #1476ac;
+  background-color: #f1f1f1;
 }
