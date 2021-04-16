@@ -474,35 +474,40 @@ function GuardarUsuario() {
     let userRegex = /\s/;
     var email = document.getElementById("correoRegis").textContent;
     var user = document.getElementById("userA").value;
-    if(user.length>3 && !userRegex.test(user)){
-        if (activeU == 0) {
-            activeU = 1;
-            document.getElementById("saveU").style.display = 'none';
-            document.getElementById("loadU").style.display = 'block';
-            document.getElementById("loadU").style.width = '50%';
-            $.ajax({
-                url: urlHost + "/actualizarU/" + user + "/" + email,
-                async: false,
-                type: "GET",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    if (data == 1) {
-                        setTimeout(function () {
-                            loadU();
-                            document.getElementById("userRegis").textContent = user;
-                            document.getElementById("user_name").innerText = user;
-                        }, 6000);
+    if(user == document.getElementById("userRegis").textContent){
+        if(user.length>3 && !userRegex.test(user)){
+            if (activeU == 0) {
+                activeU = 1;
+                document.getElementById("saveU").style.display = 'none';
+                document.getElementById("loadU").style.display = 'block';
+                document.getElementById("loadU").style.width = '50%';
+                $.ajax({
+                    url: urlHost + "/actualizarU/" + user + "/" + email,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == 1) {
+                            setTimeout(function () {
+                                loadU();
+                                document.getElementById("userRegis").textContent = user;
+                                document.getElementById("user_name").innerText = user;
+                            }, 6000);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("ERROR: No se pudo registar");
+                        loadU();
                     }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("ERROR: No se pudo registar");
-                    loadU();
-                }
-            });
+                });
+            }
+        }else{
+            alertify.error('Nombre de usuario pequeño (min 3 caracteres) y sin espacios');
+            document.getElementById("userA").value = "";
         }
     }else{
-        alertify.error('Nombre de usuario pequeño (min 3 caracteres) y sin espacios');
+        alertify.error('El usuario no puede ser el mismo');
         document.getElementById("userA").value = "";
     }
 }
