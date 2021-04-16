@@ -2,6 +2,7 @@
   margin: 1rem auto;
   text-align: center;
   width: 80%;
+  padding: 0.1px;
 }
 
 .sesion input::placeholder {
@@ -16,10 +17,37 @@
   background-color: #dddddd;
   border: none;
   text-align: center;
+
+  margin-right: 0px;
+
+}
+
+.input{
+  width: 80%;
 }
 
 .inputUser{
   margin-bottom: 2rem;
+  display: flex;
+}
+
+.tapeButton{
+  width: 14%;
+  margin: 0 1%;
+  height: 2rem;
+  box-shadow: 0 0 5px 0.1px rgb(152, 152, 152);
+  border-radius: 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tapeButton:hover{
+  box-shadow: none;
+}
+
+.tapeButton:active{
+  transform: scale(0.7)
 }
 
 .labelUser{
