@@ -1,6 +1,5 @@
 .closed {
-  transition: opacity 500ms;
-  opacity: 0;
+  display: none;
   z-index: -1;
   position: absolute;
   right: 0rem;

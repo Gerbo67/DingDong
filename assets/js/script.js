@@ -40,6 +40,22 @@ $(function () {
         GuardarPass();
     });
 
+    $(document).on('click', '.footerButton', function () {
+        var Datos = this.id;
+        var DatosA = Datos.split(';')
+        var id = DatosA[0];
+        var nombre = DatosA[1];
+        addItems(id, nombre);
+    });
+
+    $(document).on('click', '.comprar', function () {
+        money();
+    });
+
+    $(document).on('click', '.elC', function () {
+        var Datos = this.id + 'b';
+        deleteItem(Datos);
+    });
 });
 
 let urlHost = 'https://dingdongapi.azurewebsites.net/api';
@@ -48,6 +64,89 @@ let select = 0;
 let active = 0;
 let active2 = 0;
 let activeU = 0;
+let carritoU = 0;
+let items = 0;
+let total = 0;
+let list = 0;
+let lleno = 0;
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function money() {
+    if (lleno == 1) {
+        document.getElementById("money").style.display = 'block';
+        document.getElementById('itemsCards').innerHTML = '';
+        items = 0;
+        total = 0;
+        document.getElementById('itemsC').textContent = '' + items;
+        document.getElementById('noti_d').textContent = '' + items;
+        document.getElementById('totalI').textContent = '' + total;
+        document.getElementById('noti').style.opacity = '0';
+        document.getElementById('comprar').style.opacity = '0.2';
+        setTimeout(function () {
+            document.getElementById("money").style.display = 'none';
+        }, 10000);
+    }
+}
+
+function addItems(id, nombre) {
+    if (carritoU == 0) {
+        alertify.success('Inicia sesión para usar esta opcion.');
+    } else {
+        document.getElementById('noti').style.opacity = '1';
+        lleno = 1;
+        document.getElementById('comprar').style.opacity = '1';
+        if ($('#' + id + 'a').length) {
+            total = total - (parseInt(document.getElementById(id + 'c').textContent)) * (parseInt(document.getElementById(id + 'a').textContent));
+            document.getElementById(id + 'a').textContent = '' + (parseInt(document.getElementById(id + 'a').textContent) + 1);
+            total = total + (parseInt(document.getElementById(id + 'c').textContent)) * (parseInt(document.getElementById(id + 'a').textContent));
+            items++;
+        } else {
+            var dinero = getRandomInt(100, 200);
+            document.getElementById("itemsCards").insertAdjacentHTML('afterbegin', '<div id="' + id + ';bb" class="cardCarrito">' +
+                '<div class="imgC">' +
+                '<img src="assets/img/Items/Steren1.png" alt="Carrito Item">' +
+                '</div>' +
+                '<div class="contentC">' +
+                '<div class="r2"><p class="repeter">x<span id="' + id + 'a">1</span></p></div>' +
+                '<div class="titleC">' +
+                '<p class="yei">' + nombre + '</p>' +
+                '</div>' +
+                '<div class="cost">$ <span id="' + id + 'c">' + dinero + '</span></div>' +
+                '</div>' +
+                '<div id="' + id + ';b" class="elC">' +
+                '<i class="far fa-trash-alt"></i>' +
+                '</div>' +
+                '</div>')
+            items++;
+            total = total + dinero;
+        }
+        document.getElementById('itemsC').textContent = '' + items;
+        document.getElementById('noti_d').textContent = '' + items;
+        document.getElementById('totalI').textContent = '' + total;
+    }
+}
+
+function deleteItem(dates) {
+    var Datos = dates;
+    var DatosA = Datos.split(';')
+    var id = DatosA[0];
+
+    total = total - (parseInt(document.getElementById(id + 'c').textContent)) * (parseInt(document.getElementById(id + 'a').textContent));
+    items = items - (parseInt(document.getElementById(id + 'a').textContent));
+    document.getElementById('itemsC').textContent = '' + items;
+    document.getElementById('noti_d').textContent = '' + items;
+    document.getElementById('totalI').textContent = '' + total;
+
+    document.getElementById(id + ';bb').remove();
+    if (items == 0) {
+        document.getElementById('noti').style.opacity = '0';
+        document.getElementById('comprar').style.opacity = '0.2';
+        lleno = 0;
+    }
+}
 
 function ocultarmostrarforgot() {
     if (active2 == 0) {
@@ -66,6 +165,26 @@ function ocultarmostar() {
     } else {
         document.getElementById("zonaregistro").style.display = 'none';
         select = 0;
+    }
+}
+
+$('.carrito').click(function (e) {
+    if (carritoU == 0) {
+        alertify.success('Inicia sesión para usar esta opcion.')
+    } else {
+        lista();
+    }
+});
+
+function lista() {
+    if (list == 0) {
+        document.getElementById("carritoS").style.display = 'block'
+        document.getElementById("closedS").style.display = 'none'
+        list = 1;
+    } else {
+        document.getElementById("carritoS").style.display = 'none'
+        document.getElementById("closedS").style.display = 'block'
+        list = 0;
     }
 }
 
@@ -165,7 +284,6 @@ function LlenadoSlider() {
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
                         for (c = 0; c < data.length; c++) {
-
                             res += '<div class="cardShop">' +
                                 '<div class="cardss">' +
                                 '<div class="headerCard">' +
@@ -177,7 +295,7 @@ function LlenadoSlider() {
                                 '</div>' +
                                 '<div class="footerCard">' +
                                 '<div class="footerItems">' +
-                                '<button class="footerButton" >Agregar al Carrito</button>' +
+                                '<button class="footerButton" id="' + data[c].Id + ';' + data[c].ItemNombre + '" >Agregar al Carrito</button>' +
                                 '<div class="footerInfo"></div>' +
                                 '<div class="footerPlay"></div>' +
                                 '</div>' +
@@ -277,6 +395,7 @@ function comprobar(email, pass) {
             if (data[0].result == 1) {
                 eliminarCampos();
                 document.getElementById("user_name").innerText = data[1].nombre;
+                carritoU = 1;
                 abrirSesion(email, data[1].nombre, pass);
                 document.querySelector("button.ajs-ok").click();
                 alertify.success('Bienvenido ' + data[1].nombre);
@@ -286,10 +405,10 @@ function comprobar(email, pass) {
             } else if (data[0].result == 2) {
                 alertify.warning('Tienes que verificar tu correo.');
                 eliminarCampos();
-            } else if(data[0].result == 4){
+            } else if (data[0].result == 4) {
                 alertify.error('Contraseña incorrecta');
                 eliminarCampos();
-            }else{
+            } else {
                 alertify.error('No se pudo iniciar sesión');
                 eliminarCampos();
             }
@@ -453,7 +572,7 @@ function eliminarCampos() {
 }
 
 function abrirSesion(email, user, pass) {
-    document.getElementById("closedS").style.opacity = '1';
+    document.getElementById("closedS").style.display = 'block';
     document.getElementById("correoRegis").textContent = email;
     document.getElementById("contraRegis").textContent = pass;
     document.getElementById("userRegis").textContent = user;
@@ -461,11 +580,12 @@ function abrirSesion(email, user, pass) {
 
 function cerrarSesion() {
     block();
-    document.getElementById("closedS").style.opacity = '0';
+    document.getElementById("closedS").style.display = 'none'
     document.getElementById("user_name").innerText = '';
     document.getElementById("correoRegis").innerText = '';
     document.getElementById("contraRegis").innerText = '';
     active = 0;
+    carritoU = 0;
     alertify.error('Hasta luego.');
     unBlock();
 }
@@ -474,8 +594,8 @@ function GuardarUsuario() {
     let userRegex = /\s/;
     var email = document.getElementById("correoRegis").textContent;
     var user = document.getElementById("userA").value;
-    if(user == document.getElementById("userRegis").textContent){
-        if(user.length>3 && !userRegex.test(user)){
+    if (user == document.getElementById("userRegis").textContent) {
+        if (user.length > 3 && !userRegex.test(user)) {
             if (activeU == 0) {
                 activeU = 1;
                 document.getElementById("saveU").style.display = 'none';
@@ -502,11 +622,11 @@ function GuardarUsuario() {
                     }
                 });
             }
-        }else{
+        } else {
             alertify.error('Nombre de usuario pequeño (min 3 caracteres) y sin espacios');
             document.getElementById("userA").value = "";
         }
-    }else{
+    } else {
         alertify.error('El usuario no puede ser el mismo');
         document.getElementById("userA").value = "";
     }
@@ -529,54 +649,54 @@ function GuardarEmail() {
     let emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
     var email = document.getElementById("correoRegis").textContent;
     var email2 = document.getElementById("emailA").value;
-   if(email != email2){
-       if(emailRegex.test(email2)){
-           if (activeU == 0) {
-               activeU = 1;
-               document.getElementById("saveE").style.display = 'none';
-               document.getElementById("loadE").style.display = 'block';
-               document.getElementById("loadE").style.width = '50%';
-               $.ajax({
-                   url: urlHost + "/actualizarE/" + email2 + "/" + email,
-                   async: false,
-                   type: "GET",
-                   dataType: "json",
-                   contentType: "application/json; charset=utf-8",
-                   success: function (data) {
-                       if (data == 1) {
-                           setTimeout(function () {
-                               loadE(email2);
-                               alertify.success('Se envio la verifcacion a '+email2 +' una vez verificado el correo tiene que cerrar sesion y abrirla con el nuevo correo')
-                           }, 6000);
-                       }else if(data == 2){
-                           alertify.error('Este correo esta siendo vinculado')
-                           loadE(1);
-                       }else if(data == 3){
-                           alertify.error('Su cuenta esta en espera de cambiar de correo')
-                           loadE(1);
-                       }else{
-                           alertify.error('El correo ya esta vinculado')
-                           loadE(1);
-                       }
-                   },
-                   error: function (XMLHttpRequest, textStatus, errorThrown) {
-                       alert("ERROR: No se pudo registar");
-                       loadU(1);
-                   }
-               });
-           }
-       }else{
-           alertify.error('Correo incorrecto');
-           document.getElementById("userA").value = "";
-       }
-   }else{
-       alertify.error('El correo no puede ser el mismo');
-       document.getElementById("userA").value = "";
-   }
+    if (email != email2) {
+        if (emailRegex.test(email2)) {
+            if (activeU == 0) {
+                activeU = 1;
+                document.getElementById("saveE").style.display = 'none';
+                document.getElementById("loadE").style.display = 'block';
+                document.getElementById("loadE").style.width = '50%';
+                $.ajax({
+                    url: urlHost + "/actualizarE/" + email2 + "/" + email,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == 1) {
+                            setTimeout(function () {
+                                loadE(email2);
+                                alertify.success('Se envio la verifcacion a ' + email2 + ' una vez verificado el correo tiene que cerrar sesion y abrirla con el nuevo correo')
+                            }, 6000);
+                        } else if (data == 2) {
+                            alertify.error('Este correo esta siendo vinculado')
+                            loadE(1);
+                        } else if (data == 3) {
+                            alertify.error('Su cuenta esta en espera de cambiar de correo')
+                            loadE(1);
+                        } else {
+                            alertify.error('El correo ya esta vinculado')
+                            loadE(1);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("ERROR: No se pudo registar");
+                        loadU(1);
+                    }
+                });
+            }
+        } else {
+            alertify.error('Correo incorrecto');
+            document.getElementById("userA").value = "";
+        }
+    } else {
+        alertify.error('El correo no puede ser el mismo');
+        document.getElementById("userA").value = "";
+    }
 }
 
 function loadE(v) {
-    if(v == 1){
+    if (v == 1) {
         document.getElementById("loadE").style.display = 'none';
         document.getElementById("chkE").style.display = 'block';
         setTimeout(function () {
@@ -587,7 +707,7 @@ function loadE(v) {
             activeU = 0;
 
         }, 2000);
-    }else{
+    } else {
         document.getElementById("loadE").style.display = 'none';
         document.getElementById("chkE").style.display = 'block';
         setTimeout(function () {
@@ -601,47 +721,47 @@ function loadE(v) {
     }
 }
 
-function GuardarPass(){
+function GuardarPass() {
     let passRegex = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/g;
 
     var email = document.getElementById("correoRegis").textContent;
     var pass = document.getElementById("contraRegis").textContent;
     var pass2 = document.getElementById("passA").value;
-   if(pass2 != pass){
-       if(passRegex.test(pass2)){
-           if (activeU == 0) {
-               activeU = 1;
-               document.getElementById("saveP").style.display = 'none';
-               document.getElementById("loadP").style.display = 'block';
-               document.getElementById("loadP").style.width = '50%';
-               $.ajax({
-                   url: urlHost + "/actualizarP/" + pass2 + "/" + email,
-                   async: false,
-                   type: "GET",
-                   dataType: "json",
-                   contentType: "application/json; charset=utf-8",
-                   success: function (data) {
-                       if (data == 1) {
-                           setTimeout(function () {
-                               loadP();
-                               document.getElementById("contraRegis").textContent = pass2;
-                           }, 6000);
-                       }
-                   },
-                   error: function (XMLHttpRequest, textStatus, errorThrown) {
-                       alert("ERROR: No se pudo registar");
-                       loadP();
-                   }
-               });
-           }
-       }else{
-           alertify.error('La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.');
-           document.getElementById("userA").value = "";
-       }
-   }else{
-       alertify.error('La contraseña debe ser diferente a la que tiene');
-       document.getElementById("userA").value = "";
-   }
+    if (pass2 != pass) {
+        if (passRegex.test(pass2)) {
+            if (activeU == 0) {
+                activeU = 1;
+                document.getElementById("saveP").style.display = 'none';
+                document.getElementById("loadP").style.display = 'block';
+                document.getElementById("loadP").style.width = '50%';
+                $.ajax({
+                    url: urlHost + "/actualizarP/" + pass2 + "/" + email,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == 1) {
+                            setTimeout(function () {
+                                loadP();
+                                document.getElementById("contraRegis").textContent = pass2;
+                            }, 6000);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("ERROR: No se pudo registar");
+                        loadP();
+                    }
+                });
+            }
+        } else {
+            alertify.error('La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.');
+            document.getElementById("userA").value = "";
+        }
+    } else {
+        alertify.error('La contraseña debe ser diferente a la que tiene');
+        document.getElementById("userA").value = "";
+    }
 }
 
 function loadP() {

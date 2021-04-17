@@ -7,7 +7,9 @@
     <title>DingDong</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous"/>
 
     <!--Alertify-->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
@@ -58,23 +60,40 @@
     </svg>
 </div>
 
+<div id="money" class="money">
+    <img class="moner_c" src="assets/img/money.gif" alt="Dineros">
+</div>
+
 <!--Header-->
 <header class="main-header">
     <div class="l-container main-header_block">
         <img src="assets/img/logo.png" alt="Logo DingDong" class="main-logo">
         <div class="main-utilities">
-            <img src="assets/img/carrito.png" alt="Carrito" class="main-utilities_item main-icon carrito">
-            <img src="assets/img/usuario.png" alt="Usuario" class="main-utilities_item main-icon user">
+            <div><img src="assets/img/carrito.png" alt="Carrito" class="main-utilities_item main-icon carrito"><span
+                    id="noti" class="noti"><div id="noti_d" class="noti_d">0</div></span></div>
+            <div><img src="assets/img/usuario.png" alt="Usuario" class="main-utilities_item main-icon user"></div>
             <p id="user_name" class="user_name"></p>
             <div id="closedS" class="closed">
                 <div class="closedButton">
                     Cerrar sesión
                 </div>
             </div>
-
         </div>
     </div>
 </header>
+<div class="barra">
+    <div id="carritoS" class="carritoS">
+        <div id="itemsCards" class="itemsCards">
+        </div>
+        <div id="total" class="cardCarrito total">
+            <div class="itemsC">Items: <span id="itemsC">0</span></div>
+            <div class="totalI">Total: $<span id="totalI">0</span></div>
+        </div>
+        <div id="comprar" class="cardCarrito comprar">
+            Comprar todo
+        </div>
+    </div>
+</div>
 
 
 <div class="circle">

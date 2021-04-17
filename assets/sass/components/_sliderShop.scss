@@ -109,6 +109,10 @@
     background: #157cb7;
 }
 
+.footerButton:active{
+    transform: scale(0.9);
+}
+
 .footerButton:focus{
     border: none;
     outline: none;
